@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Neural network mblbcs2021_01
+Neural network mblbcs2021_vanilla
 V3.3
 Sebastià Mijares i Verdú - GICI, UAB
 sebastia.mijares@uab.cat
