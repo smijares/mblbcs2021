@@ -275,11 +275,11 @@ def parse_args(argv):
 
   # Arguments for test command.
   test_cmd.add_argument(
-        "--dataset", type=str, default="AVIRIS_uncal",
-        help="Test dataset. Its geometry will be automatically loaded.")
+      "--dataset", type=str, default="AVIRIS_uncal",
+      help="Test dataset. Its geometry will be automatically loaded.")
   test_cmd.add_argument(
-        "--SSIM", action="store_true",
-        help="Computes MS-SSIM distortion.")
+      "--SSIM", action="store_true",
+      help="Computes MS-SSIM distortion.")
   test_cmd.add_argument(
       "--width", type=int, default=680, dest="width",
       help="Width of the images to train the model. All must be the same size.")
