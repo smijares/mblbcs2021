@@ -1,5 +1,5 @@
 # Hyperspectral remote sensing data compressionwith neural networks (2021) public code
-Public code repository with the code for the paper "Hyperspectral remote sensing data compressionwith neural networks", by S. Mijares, J. Ballé, V. Laparra, J. Bartrina, M. Hernández-Carbonero, and J. Serra-Sagristà. Download this repository to test and replicate our results described in the paper.
+Public code repository with the code for the paper "Hyperspectral remote sensing data compressionwith neural networks", by S. Mijares, J. Ballé, V. Laparra, J. Bartrina, M. Hernández-Cabronero, and J. Serra-Sagristà. Download this repository to test and replicate our results described in the paper.
 
 ## Description
 This repository contains scripts to train and run networks such as those published in the "Hyperspectral remote sensing data compressionwith neural networks" paper, by S. Mijares, J. Ballé, V. Laparra, J. Bartrina, M. Hernández-Carbonero, and J. Serra-Sagristà. This includes the scripts for each of the architectures (generating new networks or running existing ones), the models we trained for the results published, and a core script that integrates the uses of our code. More on how to use this code in the "How to use this code" subsection below.
