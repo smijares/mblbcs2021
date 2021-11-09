@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Integrated script for the replication of results for AVIRIS images mblbcs2021.
-V1.2
+V1.3
 Sebastià Mijares i Verdú - GICI, UAB
 sebastia.mijares@uab.cat
 
@@ -89,17 +89,17 @@ def train(args):
                     new_arr.tofile('./datasets/interval_5/'+args.dataset+'/'+name+'_'+str(i)+'.1_'+str(args.width)+'_'+str(args.height)+'_2_1_0.raw')
     #Each model is trained sequentially.
     if args.hyperprior:
-        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_1/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_2/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_3/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_4/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_5/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_1/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_2/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_3/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_4/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_5/*.raw" --num_scales '+str(args.num_scales)+' --scale_min '+str(args.scale_min)+' --scale_max '+str(args.scale_max)+' --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
     else:
-        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_1/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_2/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_3/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_4/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
-        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob ".datasets/'+args.dataset+'/interval_5/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_1/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_2/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_3/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_4/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
+        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+' -V train --train_path ./models/'+args.model+'/logs --train_glob "./datasets/'+args.dataset+'/interval_5/*.raw" --epochs '+str(args.epochs)+' --bands '+str(224)+' --width '+str(args.width)+' --height '+str(args.height)+' --endianess 1 --lambda '+str(args.lmbda)+' --patchsize '+str(args.patchsize)+' --num_filters '+str(args.num_filters)+' --learning_rate '+str(args.learning_rate)+' --steps_per_epoch '+str(args.steps_per_epoch))
     #The collections of individual bands generated are deleted.
     os.system('rm -r ./datasets/'+args.dataset+'/interval_1')
     os.system('rm -r ./datasets/'+args.dataset+'/interval_2')
@@ -108,13 +108,11 @@ def train(args):
     os.system('rm -r ./datasets/'+args.dataset+'/interval_5')
     
 def test(args):
-    corpus = os.listdir('.datasets/'+args.dataset)
-    results = open('.models/'+args.model+'/test_results.csv','w')
+    corpus = os.listdir('./datasets/'+args.dataset)
+    results = open('./'+args.model+'_test_results.csv','w')
     results.write('Image,Raw size,TFCI size,MSE,PSNR (dB)')
     if args.SSIM:
         results.write(',MS-SSIM')
-    if args.SAM:
-        results.write(',SAM (radians)')
     results.write ('\n')
     
     for IMAGE in corpus:
@@ -128,23 +126,23 @@ def test(args):
             new_arr = []
             if args.hyperprior:
                 for band in range(224):
-                    path_to_band = './datasets/'+'/band'+str(band)+'.raw'
+                    path_to_band = './datasets/band'+str(band)+'.raw'
                     org_arr[band,:,:].tofile(path_to_band)
                     if band < 40:
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_1 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_1 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_1 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_1 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     elif band < 96:
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_2 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_2 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_2 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_2 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     elif band < 155:
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_3 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_3 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_3 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_3 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     elif band < 165:
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_4 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_4 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
                         os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_4 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     else:
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_5 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_5 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_5 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_5 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     new_band = np.reshape(np.fromfile(path_to_band+'.tfci.raw',dtype=np.uint16),(1,512,680)).astype(np.uint16)
                     compressed_size += os.stat(path_to_band+'.tfci')[6]
                     os.system('rm '+path_to_band)
@@ -154,23 +152,23 @@ def test(args):
                 new_arr = np.array(new_arr)
             else:
                 for band in range(224):
-                    path_to_band = './datasets/'+'/band'+str(band)+'.raw'
+                    path_to_band = './datasets/band'+str(band)+'.raw'
                     org_arr[band,:,:].tofile(path_to_band)
                     if band < 40:
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_1 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_1 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_1 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_1 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     elif band < 96:
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_2 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_2 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_2 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_2 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     elif band < 155:
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_3 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_3 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_3 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_3 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     elif band < 165:
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_4 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_4 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_4 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_4 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     else:
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_5 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla --model_path ./models/'+args.model+'/interval_5 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_5 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
+                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_5 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
                     new_band = np.reshape(np.fromfile(path_to_band+'.tfci.raw',dtype=np.uint16),(1,args.height,args.width)).astype(np.uint16)
                     compressed_size += os.stat(path_to_band+'.tfci')[6]
                     os.system('rm '+path_to_band)
@@ -206,7 +204,7 @@ def parse_args(argv):
       help="Name of the model to be loaded. This must be the name of the directory generated by training, and stored in the ./models directory.")
   parser.add_argument(
       "--hyperprior", "-H", action="store_true",
-      help="Select this option to train a hyperprior model. Otherwise, a model without a hyperprior will be trained.")
+      help="Select this option to use a hyperprior model. Otherwise, a model without a hyperprior will be used.")
   subparsers = parser.add_subparsers(
       title="commands", dest="command",
       help="What to do: 'train' loads training data and trains (or continues "
@@ -276,16 +274,16 @@ def parse_args(argv):
   # Arguments for test command.
   test_cmd.add_argument(
       "--dataset", type=str, default="AVIRIS_uncal",
-      help="Test dataset. Its geometry will be automatically loaded.")
+      help="Test dataset.")
   test_cmd.add_argument(
       "--SSIM", action="store_true",
-      help="Computes MS-SSIM distortion.")
+      help="Compute MS-SSIM distortion in the training results file.")
   test_cmd.add_argument(
       "--width", type=int, default=680, dest="width",
-      help="Width of the images to train the model. All must be the same size.")
+      help="Width of the images to test the model. All must be the same size.")
   test_cmd.add_argument(
       "--height", type=int, default=512, dest="height",
-      help="Height of the images to train the model. All must be the same size.")
+      help="Height of the images to test the model. All must be the same size.")
   test_cmd.add_argument(
       "--keep_reconstruction",  action="store_true", dest="keep_reconstruction",
       help="Keep the decompressed images for assessment.")
