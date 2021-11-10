@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Neural network mblbcs2021_vanilla
-V3.3
+V3.4
 Sebastià Mijares i Verdú - GICI, UAB
 sebastia.mijares@uab.cat
 
@@ -296,36 +296,38 @@ def compress(args):
   """Compresses an image."""
   # Load model and use it to compress the image.
   model = tf.keras.models.load_model(args.model_path)
-  x = read_raw(args.input_file,args.height,args.width,args.bands,args.endianess)
-  tensors = model.compress(x)
-
-  # Write a binary file with the shape information and the compressed string.
-  packed = tfc.PackedTensors()
-  packed.pack(tensors)
-  with open(args.output_file, "wb") as f:
-    f.write(packed.string)
-
-  # If requested, decompress the image and measure performance.
-  if args.verbose:
-    x_hat = model.decompress(*tensors)
-
-    # Cast to float in order to compute metrics.
-    x = tf.cast(x, tf.float32)
-    x_hat = tf.cast(x_hat, tf.float32)
-    mse = tf.reduce_mean(tf.math.squared_difference(x, x_hat))
-    psnr = tf.squeeze(tf.image.psnr(x, x_hat, 2**bit_length-1))
-    msssim = tf.squeeze(tf.image.ssim_multiscale(x, x_hat, 2**bit_length-1))
-    msssim_db = -10. * tf.math.log(1 - msssim) / tf.math.log(10.)
-
-    # The actual bits per pixel including entropy coding overhead.
-    num_pixels = tf.reduce_prod(tf.shape(x)[:-1])
-    bpp = len(packed.string) * 8 / num_pixels
-
-    print(f"Mean squared error: {mse:0.4f}")
-    print(f"PSNR (dB): {psnr:0.2f}")
-    print(f"Multiscale SSIM: {msssim:0.4f}")
-    print(f"Multiscale SSIM (dB): {msssim_db:0.2f}")
-    print(f"Bits per pixel: {bpp:0.4f}")
+  inputs = glob.glob(args.input_file)
+  for input_file in inputs:
+      x = read_raw(input_file,args.height,args.width,args.bands,args.endianess)
+      tensors = model.compress(x)
+    
+      # Write a binary file with the shape information and the compressed string.
+      packed = tfc.PackedTensors()
+      packed.pack(tensors)
+      with open(args.output_file, "wb") as f:
+        f.write(packed.string)
+    
+      # If requested, decompress the image and measure performance.
+      if args.verbose:
+        x_hat = model.decompress(*tensors)
+    
+        # Cast to float in order to compute metrics.
+        x = tf.cast(x, tf.float32)
+        x_hat = tf.cast(x_hat, tf.float32)
+        mse = tf.reduce_mean(tf.math.squared_difference(x, x_hat))
+        psnr = tf.squeeze(tf.image.psnr(x, x_hat, 2**bit_length-1))
+        msssim = tf.squeeze(tf.image.ssim_multiscale(x, x_hat, 2**bit_length-1))
+        msssim_db = -10. * tf.math.log(1 - msssim) / tf.math.log(10.)
+    
+        # The actual bits per pixel including entropy coding overhead.
+        num_pixels = tf.reduce_prod(tf.shape(x)[:-1])
+        bpp = len(packed.string) * 8 / num_pixels
+    
+        print(f"Mean squared error: {mse:0.4f}")
+        print(f"PSNR (dB): {psnr:0.2f}")
+        print(f"Multiscale SSIM: {msssim:0.4f}")
+        print(f"Multiscale SSIM (dB): {msssim_db:0.2f}")
+        print(f"Bits per pixel: {bpp:0.4f}")
 
 
 def decompress(args):
@@ -333,16 +335,17 @@ def decompress(args):
   # Load the model and determine the dtypes of tensors required to decompress.
   model = tf.keras.models.load_model(args.model_path)
   dtypes = [t.dtype for t in model.decompress.input_signature]
-
-  # Read the shape information and compressed string from the binary file,
-  # and decompress the image using the model.
-  with open(args.input_file, "rb") as f:
-    packed = tfc.PackedTensors(f.read())
-  tensors = packed.unpack(dtypes)
-  x_hat = model.decompress(*tensors)
-
-  # Write reconstructed image out as a RAW file.
-  write_raw(args.output_file, x_hat)
+  inputs = glob.glob(args.input_file)
+  for input_file in inputs:
+      # Read the shape information and compressed string from the binary file,
+      # and decompress the image using the model.
+      with open(input_file, "rb") as f:
+        packed = tfc.PackedTensors(f.read())
+      tensors = packed.unpack(dtypes)
+      x_hat = model.decompress(*tensors)
+    
+      # Write reconstructed image out as a RAW file.
+      write_raw(args.output_file, x_hat)
 
 
 def parse_args(argv):
@@ -389,8 +392,11 @@ def parse_args(argv):
            "expand to a list of RGB images in raw format. If unspecified, the "
            "CLIC dataset from TensorFlow Datasets is used.")
   train_cmd.add_argument(
-      "--num_filters", type=int, default=48,
+      "--num_filters", type=int, default=128,
       help="Number of filters per layer.")
+  train_cmd.add_argument(
+      "--num_filters_1D", type=int, default=4,
+      help="Number of filters in the 1D layer.")
   train_cmd.add_argument(
       "--train_path", default="/tmp/train_bls2021",
       help="Path where to log training metrics for TensorBoard and back up "
@@ -421,13 +427,13 @@ def parse_args(argv):
       "--check_numerics", action="store_true",
       help="Enable TF support for catching NaN and Inf in tensors.")
   train_cmd.add_argument(
-      "--bands", type=int, default=1, dest="bands",
+      "--bands", type=int, default=3, dest="bands",
       help="Number of bands in the images to train the model.")
   train_cmd.add_argument(
-      "--width", type=int, default=680, dest="width",
+      "--width", type=int, default=256, dest="width",
       help="Width of the images to train the model. All must be the same size.")
   train_cmd.add_argument(
-      "--height", type=int, default=512, dest="height",
+      "--height", type=int, default=256, dest="height",
       help="Height of the images to train the model. All must be the same size.")
   train_cmd.add_argument(
       "--endianess", type=int, default=1, dest="endianess",
@@ -453,7 +459,7 @@ def parse_args(argv):
   for cmd, ext in ((compress_cmd, ".tfci"), (decompress_cmd, ".raw")):
     cmd.add_argument(
         "input_file",
-        help="Input filename.")
+        help='Input filename or glob pattern. If a glob pattern is used, delimitate it with "".')
     cmd.add_argument(
         "bands",type=int,
         help="Number of bands in input image.")
@@ -469,7 +475,7 @@ def parse_args(argv):
     cmd.add_argument(
         "output_file", nargs="?",
         help=f"Output filename (optional). If not provided, appends '{ext}' to "
-             f"the input filename.")
+             f"the input filename. Use only for single files.")
 
   # Parse arguments.
   args = parser.parse_args(argv[1:])

@@ -117,65 +117,43 @@ def test(args):
     
     for IMAGE in corpus:
         if os.path.splitext(IMAGE)[1] == '.raw':
+            org_arr = np.reshape(np.fromfile('./datasets/'+args.dataset+'/'+IMAGE,dtype=np.uint16),(224,args.height,args.width))
+            for band in range(224):
+                path_to_band = './datasets/band'+str(band)+'.raw'
+                org_arr[band,:,:].tofile(path_to_band)
+    
+    arch = 'vanilla'
+    if args.hyperprior:
+        arch = 'hyperprior'
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_1 compress ./datasets/band[0-39].raw 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_1 decompress ./datasets/band[0-39].raw.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_2 compress ./datasets/band[40-95].raw 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_2 decompress ./datasets/band[40-95].raw.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_3 compress ./datasets/band[96-154].raw 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_3 decompress ./datasets/band[96-154].raw.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_4 compress ./datasets/band[155-164].raw 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_4 decompress ./datasets/band[155-164].raw.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_5 compress ./datasets/band[165-223].raw 1 '+str(args.width)+' '+str(args.height)+' 1')
+    os.system('python ./architectures/mblbcs2021_'+arch+'.py --model_path ./models/'+args.model+'/interval_5 decompress ./datasets/band[165-223].raw.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
+        
+    
+    for IMAGE in corpus:
+        if os.path.splitext(IMAGE)[1] == '.raw':
             path_to_image = './datasets/'+args.dataset+'/'+IMAGE
             original_size = os.stat(path_to_image)[6]
             results.write(IMAGE+','+str(original_size)+',')
             compressed_size = 0
             raw_tfci_path_to_image = path_to_image+'.tfci.raw'
-            org_arr = np.reshape(np.fromfile('./datasets/'+args.dataset+'/'+IMAGE,dtype=np.uint16),(224,args.height,args.width))
             new_arr = []
-            if args.hyperprior:
-                for band in range(224):
-                    path_to_band = './datasets/band'+str(band)+'.raw'
-                    org_arr[band,:,:].tofile(path_to_band)
-                    if band < 40:
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_1 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_1 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    elif band < 96:
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_2 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_2 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    elif band < 155:
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_3 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_3 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    elif band < 165:
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_4 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior --model_path ./models/'+args.model+'/interval_4 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    else:
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_5 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_hyperprior.py --model_path ./models/'+args.model+'/interval_5 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    new_band = np.reshape(np.fromfile(path_to_band+'.tfci.raw',dtype=np.uint16),(1,512,680)).astype(np.uint16)
-                    compressed_size += os.stat(path_to_band+'.tfci')[6]
-                    os.system('rm '+path_to_band)
-                    os.system('rm '+path_to_band+'.tfci')
-                    os.system('rm '+path_to_band+'.tfci.raw')
-                    new_arr.append(new_band)
-                new_arr = np.array(new_arr)
-            else:
-                for band in range(224):
-                    path_to_band = './datasets/band'+str(band)+'.raw'
-                    org_arr[band,:,:].tofile(path_to_band)
-                    if band < 40:
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_1 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_1 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    elif band < 96:
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_2 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_2 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    elif band < 155:
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_3 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_3 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    elif band < 165:
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_4 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_4 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    else:
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_5 compress '+path_to_band+' 1 '+str(args.width)+' '+str(args.height)+' 1')
-                        os.system('python ./architectures/mblbcs2021_vanilla.py --model_path ./models/'+args.model+'/interval_5 decompress '+path_to_band+'.tfci 1 '+str(args.width)+' '+str(args.height)+' 1')
-                    new_band = np.reshape(np.fromfile(path_to_band+'.tfci.raw',dtype=np.uint16),(1,args.height,args.width)).astype(np.uint16)
-                    compressed_size += os.stat(path_to_band+'.tfci')[6]
-                    os.system('rm '+path_to_band)
-                    os.system('rm '+path_to_band+'.tfci')
-                    os.system('rm '+path_to_band+'.tfci.raw')
-                    new_arr.append(new_band)
-                new_arr = np.array(new_arr)
+            for band in range(224):
+                path_to_band = './datasets/band'+str(band)+'.raw'
+                new_band = np.reshape(np.fromfile(path_to_band+'.tfci.raw',dtype=np.uint16),(1,args.height,args.width)).astype(np.uint16)
+                compressed_size += os.stat(path_to_band+'.tfci')[6]
+                os.system('rm '+path_to_band)
+                os.system('rm '+path_to_band+'.tfci')
+                os.system('rm '+path_to_band+'.tfci.raw')
+                new_arr.append(new_band)
+            new_arr = np.array(new_arr)
             if args.keep_reconstruction:
                 new_arr.tofile(raw_tfci_path_to_image)
             #Currently this is only setup for 16-bit images; hard-coded.
