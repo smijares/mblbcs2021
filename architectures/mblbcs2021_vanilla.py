@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Neural network mblbcs2021_vanilla
-V3.4
+V3.5
 Sebastià Mijares i Verdú - GICI, UAB
 sebastia.mijares@uab.cat
 
@@ -304,7 +304,7 @@ def compress(args):
       # Write a binary file with the shape information and the compressed string.
       packed = tfc.PackedTensors()
       packed.pack(tensors)
-      with open(args.output_file, "wb") as f:
+      with open(input_file+'.tfci', "wb") as f:
         f.write(packed.string)
     
       # If requested, decompress the image and measure performance.
@@ -345,7 +345,7 @@ def decompress(args):
       x_hat = model.decompress(*tensors)
     
       # Write reconstructed image out as a RAW file.
-      write_raw(args.output_file, x_hat)
+      write_raw(input_file+'.raw', x_hat)
 
 
 def parse_args(argv):
@@ -472,10 +472,6 @@ def parse_args(argv):
     cmd.add_argument(
         "endianess",type=int,
         help="Set to 0 if data is big endian, 1 if it's little endian.")
-    cmd.add_argument(
-        "output_file", nargs="?",
-        help=f"Output filename (optional). If not provided, appends '{ext}' to "
-             f"the input filename. Use only for single files.")
 
   # Parse arguments.
   args = parser.parse_args(argv[1:])
